@@ -1,0 +1,16 @@
+@import "tailwindcss";
+body {
+  font-family: system-ui, sans-serif;
+}
+
+/* gold underline on hover */
+nav a:hover > span {
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 0.2s;
+}
+nav a > span {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s;
+}

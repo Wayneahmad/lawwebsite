@@ -1,0 +1,52 @@
+function Hero({
+poster,
+video,
+eyebrow,
+title,
+strap,
+primaryHref,
+secondaryHref,
+}) {
+return (
+<section className="
+        relative grid overflow-hidden
+        rounded-b-[42px] sm:rounded-b-[48px]
+        min-h-[72dvh] sm:min-h-[64dvh] lg:min-h-[90dvh]
+        lg:grid-cols-[minmax(520px,42vw)_1fr]
+      ">
+    {/* MEDIA (top on mobile, left on desktop) */}
+    <div className="relative overflow-hidden order-first lg:order-none min-h-[38dvh] sm:min-h-[40dvh] lg:min-h-0">
+        <motion.video className="absolute inset-0 h-full w-full object-cover object-[60%_center]" autoPlay muted loop
+            playsInline poster={poster} // Subtle Ken-Burns (slow ease) initial={{ scale: 1.06 }} animate={{ scale: 1 }}
+            transition={{ duration: 10, ease: [0.2, 0.8, 0.2, 1] }}>
+            <source src={video} type="video/mp4" />
+        </motion.video>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/10 to-transparent" />
+    </div>
+
+    {/* TEXT BAND */}
+    <div className="
+          relative flex items-center
+          bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-900
+          -mt-px lg:mt-0
+          lg:py-8
+        ">
+        {/* Outer container = same gutters as navbar on mobile/tablet; flush on desktop */}
+        <div className="site-container w-full px-6 sm:px-8 lg:px-0">
+            {/* Inner stack = staggered animation container */}
+            <motion.div variants={heroStagger} initial="hidden" animate="show"
+                className="w-full lg:max-w-none xl:max-w-[36rem] py-5 sm:py-7 lg:py-0 lg:pl-3 xl:pl-4">
+                <Eyebrow>{eyebrow}</Eyebrow>
+                <HeroTitle>{title}</HeroTitle>
+                <HeroStrap>{strap}</HeroStrap>
+                <HeroCTAs primaryHref={primaryHref} secondaryHref={secondaryHref} />
+            </motion.div>
+        </div>
+
+        {/* Slim vignette on desktop so it doesn't look like padding */}
+        <div aria-hidden
+            className="pointer-events-none absolute inset-y-0 left-0 hidden w-4 bg-gradient-to-l from-transparent to-slate-900/60 lg:block" />
+    </div>
+</section>
+);
+}

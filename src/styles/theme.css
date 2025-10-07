@@ -1,0 +1,485 @@
+/* src/styles/theme.css
+   ======================================================================
+   THEME + LAYOUT SYSTEM
+   - One “Tuning Panel” for responsiveness (max widths, gutters, gaps)
+   - Clean media queries that apply those knobs
+   - RC grid behaviour: 1 → 2 (@768) → 4 (@1280)
+   ====================================================================== */
+
+/* ======================================================================
+   0) DESIGN TOKENS (colours, brand)
+   ---------------------------------------------------------------------- */
+:root {
+  --brand-primary: #0f1a2a;
+  --brand-accent: #c7a44b;
+  --page-bg: #f8fafc;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+
+  --band-border: rgba(255, 255, 255, 0.08);
+
+  --footer-bg: #0f1e2f;
+  --footer-fg: rgba(255, 255, 255, 0.92);
+  --footer-muted: rgba(255, 255, 255, 0.75);
+  --footer-border: rgba(255, 255, 255, 0.12);
+  --footer-accent: #c7a44b;
+
+  /* Optional patterns */
+  --pattern-page-dot: rgba(15, 26, 42, 0.06);
+  --pattern-band-dot: rgba(255, 255, 255, 0.9);
+
+  /* === GRADIENT TOKENS (derived from your existing colours) === */
+  --brand-grad-from: color-mix(in oklab, var(--brand-primary) 90%, white 10%);
+  --brand-grad-to: color-mix(in oklab, var(--brand-primary) 88%, black 12%);
+
+  --footer-grad-from: color-mix(in oklab, var(--footer-bg) 100px, white 10%);
+  --footer-grad-to: color-mix(in oklab, var(--footer-bg) 85%, black 15%);
+}
+
+/* Compatibility aliases */
+:root {
+  --color-brand: var(--brand-primary);
+  --color-accent: var(--brand-accent);
+  --color-page-bg: var(--page-bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+}
+
+/* ======================================================================
+   1) RESPONSIVE TUNING PANEL  ←←← EDIT THESE KNOBS
+   ----------------------------------------------------------------------
+   Breakpoint reference (Tailwind-style):
+   - sm:  640px
+   - md:  768px
+   - lg:  1024px
+   - xl:  1280px
+   - 2xl: 1536px
+   ---------------------------------------------------------------------- */
+
+/* 1A) Page max width (readable content cap) */
+/* Hard cap for desktop/ultra-wide content */
+
+:root {
+  --page-max: 1435px;
+  --lg-page-max: 1040px;
+  --md-page-max: 700px;
+  --sm-page-max: 414px;
+  --xs-page-max: 414px;
+}
+
+:root {
+  --page-bg: #f6f8fb;
+} /* your off-white */
+.bg-page {
+  background: var(--page-bg);
+}
+
+/* 1B) Container max-widths PER BREAKPOINT
+   - px for hard caps, % for fluid widths.
+   - These are applied as `max-width` inside .site-container.
+*/
+:root {
+  --container-max-base: var(--xs-page-max); /* < 640px  (phones) */
+  --container-max-sm: var(--sm-page-max); /* ≥ 640px  (large phones) */
+  --container-max-md: var(
+    --md-page-max
+  ); /* ≥ 768px  (tablets); try 70–100% or a px cap */
+  --container-max-lg: var(--lg-page-max); /* ≥ 1024px (desktops) */
+  --container-max-xl: var(--page-max); /* ≥ 1280px */
+  --container-max-2xl: var(--page-max); /* ≥ 1536px */
+}
+
+/* 1C) Horizontal GUTTERS PER BREAKPOINT (inner padding)
+   - Space from content to viewport edge, on left and right.
+   - Keep steps modest for smoother feel.
+*/
+:root {
+  --gutter-xs: 16px; /* < 640px */
+  --gutter-sm: 16px; /* 640–767 */
+  --gutter-md: 35px; /* 768–1023 */
+  --gutter-lg: 42px; /* 1024–1279 */
+  --gutter-xl: 106px; /* 1280–1535 */
+  --gutter-2xl: 106px; /* ≥ 1536px (same as xl keeps edge feel consistent) */
+}
+
+/* 1D) Grid GAPS for the People grid (tweak spacing rhythm)
+   - Keep these in the same “ballpark” as gutters so the page breathes evenly.
+*/
+:root {
+  --gap-base: 1.25rem; /* ~20px: phones */
+  --gap-md: 1.25rem; /* ~20px: tablets */
+  --gap-lg: 1.5rem; /* ~24px: small desktops */
+  --gap-xl: 2rem; /* ~32px: big desktops / 4-col */
+}
+
+/* 1E) (Optional) Compression band for xl range (1280–1440)
+   Uncomment to make content sit closer to edges *just in this band*.
+   Tweak the gutter/gap reductions to taste.
+*/
+/*
+@media (min-width:1280px) and (max-width:1440px) {
+  :root {
+    --gutter-xl: 32px;  // was 40px
+    --gap-xl:    1.75rem; // was 2.00rem
+  }
+}
+*/
+
+/* ======================================================================
+   2) CONTAINER IMPLEMENTATION (uses the tuning panel)
+   ----------------------------------------------------------------------
+   .site-container keeps a consistent layout shell everywhere:
+   - max-width comes from --container-max-*
+   - inner padding (gutters) comes from --gutter-*
+   - width is additionally capped by --page-max via your chosen caps
+   ---------------------------------------------------------------------- */
+.site-container {
+  max-width: var(--container-max-base);
+  margin-inline: auto;
+  padding-inline: var(--gutter-xs);
+  /* Respect iOS safe areas without losing our gutters */
+  padding-left: max(var(--gutter-xs), env(safe-area-inset-left));
+  padding-right: max(var(--gutter-xs), env(safe-area-inset-right));
+}
+
+/* sm ≥ 640px */
+@media (min-width: 640px) {
+  .site-container {
+    max-width: var(--container-max-sm);
+    padding-inline: var(--gutter-sm);
+    padding-left: max(var(--gutter-sm), env(safe-area-inset-left));
+    padding-right: max(var(--gutter-sm), env(safe-area-inset-right));
+  }
+}
+
+/* md ≥ 768px */
+@media (min-width: 768px) {
+  .site-container {
+    max-width: var(--container-max-md);
+    padding-inline: var(--gutter-md);
+    padding-left: max(var(--gutter-md), env(safe-area-inset-left));
+    padding-right: max(var(--gutter-md), env(safe-area-inset-right));
+  }
+}
+
+/* lg ≥ 1024px */
+@media (min-width: 1024px) {
+  .site-container {
+    max-width: var(--container-max-lg);
+    padding-inline: var(--gutter-lg);
+    padding-left: max(var(--gutter-lg), env(safe-area-inset-left));
+    padding-right: max(var(--gutter-lg), env(safe-area-inset-right));
+  }
+}
+
+/* xl ≥ 1280px  (NOTE: fixed from your earlier 1024px typo) */
+@media (min-width: 1280px) {
+  .site-container {
+    max-width: var(--container-max-xl);
+    padding-inline: var(--gutter-xl);
+    padding-left: max(var(--gutter-xl), env(safe-area-inset-left));
+    padding-right: max(var(--gutter-xl), env(safe-area-inset-right));
+  }
+}
+
+/* 2xl ≥ 1536px */
+@media (min-width: 1536px) {
+  .site-container {
+    max-width: var(--container-max-2xl);
+    padding-inline: var(--gutter-2xl);
+    padding-left: max(var(--gutter-2xl), env(safe-area-inset-left));
+    padding-right: max(var(--gutter-2xl), env(safe-area-inset-right));
+  }
+}
+
+/* Variants */
+.site-container--narrow {
+  max-width: 920px !important;
+}
+.site-container--wide {
+  max-width: 1280px !important;
+}
+.site-container--edge {
+  padding-inline: 0 !important;
+} /* full-bleed content */
+
+/* ----------------------------------------
+   CONTAINER / BLEED HELPERS
+   ---------------------------------------- */
+
+/* A) Keep container width limits, but remove just the LEFT padding at lg+.
+   Great for the right side of a split hero so copy sits near the split.
+*/
+@media (min-width: 1024px) {
+  .site-container--no-left-lg {
+    padding-left: 0 !important;
+  }
+}
+
+/* B) Edge-to-edge at lg+ (keeps widths but removes both side paddings). */
+@media (min-width: 1024px) {
+  .site-container--edge-lg {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+/* C) Full-bleed child inside a constrained parent.
+   This "escapes" the parent's padding to touch viewport edges.
+   Safe-area aware for iOS.
+*/
+.bleed-x {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: max(0px, env(safe-area-inset-left));
+  padding-right: max(0px, env(safe-area-inset-right));
+}
+
+/* Left-only or right-only bleed variants (rarely needed, but handy) */
+.bleed-l {
+  margin-left: calc(50% - 50vw);
+  padding-left: max(0px, env(safe-area-inset-left));
+}
+.bleed-r {
+  margin-right: calc(50% - 50vw);
+  padding-right: max(0px, env(safe-area-inset-right));
+}
+
+/* Responsive “only bleed on desktop” versions */
+@media (min-width: 1024px) {
+  .bleed-x-lg {
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+  .bleed-l-lg {
+    margin-left: calc(50% - 50vw);
+  }
+  .bleed-r-lg {
+    margin-right: calc(50% - 50vw);
+  }
+}
+
+/* ======================================================================
+   3) PAGE REGIONS (semantics only; colours from tokens)
+   ---------------------------------------------------------------------- */
+.bg-page {
+  background-color: var(--page-bg);
+}
+
+.band {
+  background-color: var(--brand-primary);
+  border-color: var(--band-border);
+}
+
+.prefooter {
+  background-color: var(--footer-bg);
+  color: var(--footer-fg);
+}
+.footer {
+  background-color: var(--footer-bg);
+  color: var(--footer-fg);
+}
+
+.footer-muted {
+  color: var(--footer-muted);
+}
+.footer-border {
+  border-color: var(--footer-border);
+}
+.footer-accent {
+  color: var(--footer-accent);
+}
+
+/* --- Softer brand gradient (keeps your tokens) --- */
+:root {
+  /* Slightly closer together so the gradient is calmer */
+  --brand-grad-from: color-mix(in oklab, var(--brand-primary) 94%, white 6%);
+  --brand-grad-to: color-mix(in oklab, var(--brand-primary) 90%, black 10%);
+}
+
+/* Softer, right-edge vignette that darkens toward the edges
+   and lightens toward the center. Designed for dark brand bands. */
+.band--rightfade {
+  /* Layer order matters: edge darken → central soft light → base brand gradient */
+  background-image:
+    /* 1) Right-edge darkening (covers the whole right rim) */ radial-gradient(
+      60% 120% at 100% 50%,
+      /* big ellipse anchored on the right edge */ rgba(0, 0, 0, 0.22) 0%,
+      rgba(0, 0, 0, 0.14) 35%,
+      rgba(0, 0, 0, 0.08) 55%,
+      rgba(0, 0, 0, 0) 72%
+    ),
+    /* 2) Very soft central lift so the middle reads a touch lighter */
+      radial-gradient(
+        900px 70% at 58% 42%,
+        /* center-of-copy area */ rgba(255, 255, 255, 0.035) 0%,
+        transparent 60%
+      ),
+    /* 3) Base brand gradient (same tokens you already use site-wide) */
+      linear-gradient(
+        to top right,
+        var(--brand-grad-from),
+        var(--brand-grad-to)
+      );
+}
+
+/* Optional: slightly stronger look ≥1280px if your hero gets very wide */
+@media (min-width: 1280px) {
+  .band--rightfade {
+    background-image: radial-gradient(
+        62% 120% at 100% 50%,
+        rgba(0, 0, 0, 0.24) 100%,
+        rgba(0, 0, 0, 0.1) 35%,
+        rgba(0, 0, 0, 0.08) 158%,
+        rgba(0, 0, 0, 0) 74%
+      ),
+      radial-gradient(
+        1000px 72% at 56% 40%,
+        rgba(255, 255, 255, 0.03) 0%,
+        transparent 62%
+      ),
+      linear-gradient(
+        to top right,
+        var(--brand-grad-from),
+        var(--brand-grad-to)
+      );
+  }
+}
+
+/* A gentler vignette: balanced, less hotspot in the corner */
+.band--vignette-soft {
+  /* stack two subtle radials + the brand linear gradient */
+  background-image:
+    /* main soft glow toward the right/top, reduced opacity */ radial-gradient(
+      1100px 15% at 8% 18%,
+      rgba(255, 255, 255, 0.035),
+      transparent 60%
+    ),
+    /* counter-balance from bottom-left so it feels even */
+      radial-gradient(
+        1200px 70% at 8% 92%,
+        rgba(0, 0, 0, 0.06),
+        transparent 60%
+      ),
+    /* base brand gradient */
+      linear-gradient(
+        to top right,
+        var(--brand-grad-from),
+        var(--brand-grad-to)
+      );
+}
+
+/* === GRADIENT HELPERS (layered over existing region styles) === */
+/* band */
+.band--gradient {
+  background-color: var(--brand-primary);
+  /* was 180deg; now light starts bottom-left → fades to top-right */
+  background-image: linear-gradient(
+    to top right,
+    var(--brand-grad-from),
+    var(--brand-grad-to)
+  );
+}
+
+/* footer */
+.footer--gradient {
+  background-color: var(--footer-bg);
+  background-image: radial-gradient(
+      1200px 70% at 0% 100%,
+      rgba(255, 255, 255, 0.08),
+      transparent 60%
+    ),
+    linear-gradient(
+      to top right,
+      var(--footer-grad-from),
+      var(--footer-grad-to)
+    );
+}
+
+.prefooter--gradient {
+  background-color: var(--footer-bg);
+  background-image: linear-gradient(
+    to top right,
+    var(--footer-grad-from),
+    var(--footer-grad-to)
+  );
+}
+
+/* Optional soft vignette for a little extra depth on wide screens */
+/* Replace your band--vignette rule with this */
+@media (min-width: 1024px) {
+  .band--vignette {
+    background-image: radial-gradient(
+        1200px 70% at 0% 100%,
+        rgba(255, 255, 255, 0.1),
+        transparent 60%
+      ),
+      linear-gradient(
+        to top right,
+        var(--brand-grad-from),
+        var(--brand-grad-to)
+      );
+  }
+}
+
+/* ======================================================================
+   4) COMPONENT UTILITIES (People grid, buttons, helpers)
+   ---------------------------------------------------------------------- */
+
+/* PEOPLE GRID — RC behaviour:
+   1 col (<768) → 2 cols (≥768) → 4 cols (≥1280)
+   Gaps come from the tuning panel (1D).
+*/
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: var(--gap-base);
+}
+
+/* ≥ 768px → 2 columns */
+@media (min-width: 768px) {
+  .team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap-md);
+  }
+}
+
+/* ≥ 1024px → still 2 columns (breathe a bit more if you like) */
+@media (min-width: 1024px) {
+  .team-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap-lg);
+  }
+}
+
+/* ≥ 1280px → 4 columns (bigger gaps) */
+@media (min-width: 1280px) {
+  .team-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--gap-xl);
+  }
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+}
+.btn-accent {
+  background-color: var(--brand-accent);
+  color: #0b0e14;
+}
+.btn-accent:hover {
+  filter: brightness(0.96);
+}
+
+/* Logo helper for dark bands */
+.logo-invert {
+  filter: brightness(0) invert(1);
+}
