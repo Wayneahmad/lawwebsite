@@ -7,6 +7,12 @@ import { motion } from "framer-motion";
 import ExperienceOverview from "../components/home/ExperienceOverview";
 import ConsultantInvite from "../components/home/ConsultantPitchUltra";
 
+// NEW sections
+import WhoWeAre from "../components/home/WhoWeAre";
+import ServicesOverview from "../components/home/ServicesOverview";
+import WhyChooseUs from "../components/home/WhyChooseUs";
+import JoinUsInvite from "../components/home/JoinUsInvite";
+
 // ===================== HERO ANIMATION PRESETS =====================
 const heroStagger = {
   hidden: { opacity: 1 },
@@ -61,7 +67,19 @@ export default function Home() {
         primaryHref="/contact"
         secondaryHref="/services"
       />
-      <ConsultantInvite />
+
+      {/* ==================== NEW: WHO WE ARE ================== */}
+      <WhoWeAre />
+
+      {/* ==================== NEW: SERVICES ==================== */}
+      <ServicesOverview />
+
+      {/* ================= NEW: WHY CHOOSE US ================= */}
+      <WhyChooseUs />
+
+      {/* ===================== NEW: JOIN US ==================== */}
+      <JoinUsInvite />
+      {/* <ConsultantInvite /> */}
       {/* <ExperienceOverview /> */}
       {/* <ExperienceInvite /> */}
       <SiteFooter />

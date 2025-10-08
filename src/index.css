@@ -14,3 +14,11 @@ nav a > span {
   transform-origin: left;
   transition: transform 0.2s;
 }
+
+/* Slightly roomier large section spacing via utility (used by Section wrapper) */
+@layer utilities {
+  .py-18 {
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  } /* lg up */
+}
