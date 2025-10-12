@@ -2,17 +2,6 @@ import { motion } from "framer-motion";
 import Section from "../ui/Section";
 import Eyebrow from "../ui/Eyebrow";
 
-function IconTick() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
-      <path
-        fill="currentColor"
-        d="M9 16.2l-3.5-3.5L4 14.2 9 19l11-11-1.5-1.5z"
-      />
-    </svg>
-  );
-}
-
 export default function WhyChooseUs({
   heading = "Why clients choose us",
   items = [
@@ -22,7 +11,7 @@ export default function WhyChooseUs({
     },
     {
       t: "Responsive and discreet representation.",
-      d: "Available when it counts and always confidential.",
+      d: "Available when it counts — always confidential.",
     },
     {
       t: "Proven track record in complex litigation.",
@@ -42,31 +31,34 @@ export default function WhyChooseUs({
       <Eyebrow>Proof</Eyebrow>
       <h2
         id="why-title"
-        className="mt-2 font-semibold text-slate-900 leading-[1.08] tracking-tight text-[clamp(24px,5vw,38px)]"
+        className="mt-2 text-slate-900 font-semibold leading-[1.12] text-[clamp(22px,4.6vw,34px)]"
       >
         {heading}
       </h2>
 
-      <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {items.map(({ t, d }) => (
-          <motion.div
+      <ol className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-3">
+        {items.map(({ t, d }, i) => (
+          <motion.li
             key={t}
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.3 }}
-            className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm"
+            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
           >
-            <div className="text-[var(--brand-accent)]">
-              <IconTick />
+            <div className="flex items-start gap-3">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-page text-slate-900 font-semibold">
+                {i + 1}
+              </span>
+              <div>
+                <h3 className="font-semibold text-slate-900">{t}</h3>
+                <p className="mt-1 text-sm text-slate-600">{d}</p>
+              </div>
             </div>
-            <h3 className="mt-2 font-semibold text-slate-900">{t}</h3>
-            <p className="mt-1 text-sm text-slate-600">{d}</p>
-          </motion.div>
+          </motion.li>
         ))}
-      </div>
+      </ol>
 
-      {/* Slim quotes — light, not a big carousel */}
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
         {quotes.map(({ q, c }, i) => (
           <figure

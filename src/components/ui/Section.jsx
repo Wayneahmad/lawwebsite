@@ -1,10 +1,10 @@
-// A light wrapper to standardize vertical spacing + optional separators
+// src/components/ui/Section.jsx
 export default function Section({
   id,
   children,
-  bg = "bg-white", // bg-white | bg-page
-  topFade = true, // soft gradient into previous section
-  topRule = false, // hairline divider at the top
+  bg = "bg-white",
+  topFade = true,
+  topRule = false,
   className = "",
   containerClass = "",
   ariaLabelledby,

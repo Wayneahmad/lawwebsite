@@ -1,18 +1,19 @@
 import { motion } from "framer-motion";
-import Section from "../../ui/Section";
-import Eyebrow from "../../ui/Eyebrow";
+import Section from "../ui/Section";
+import Eyebrow from "../ui/Eyebrow";
+import officeImage from "../../assets/whoweare.jpg";
 
 export default function WhoWeAre({
   heading = "Defending clients in the most serious and complex cases.",
-  blurb = "We provide clear, discreet and decisive representation in high-stakes criminal and financial matters. Our team brings deep experience across investigations and litigation — at speed and with care.",
-  highlights = [
-    "50+ years combined experience",
-    "SFO & FCA expertise",
-    "International cases handled",
+  lead = "Clear, discreet and decisive representation in high-stakes criminal and financial matters. Deep experience across investigations and litigation — delivered at speed and with care.",
+  stats = [
+    { k: "50+ yrs", v: "combined experience" },
+    { k: "SFO / FCA", v: "investigation expertise" },
+    { k: "Cross-border", v: "matters handled" },
   ],
   ctaHref = "/about",
-  ctaLabel = "Learn about Sperrin Law",
-  image = "https://images.unsplash.com/photo-1544033527-b192daee1f2d?q=80&w=1200&auto=format&fit=crop",
+  ctaLabel = "Meet our team",
+  image = officeImage,
 }) {
   return (
     <Section ariaLabelledby="who-title" bg="bg-white" topFade topRule>
@@ -23,35 +24,36 @@ export default function WhoWeAre({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-12% 0px" }}
           transition={{ duration: 0.35 }}
-          className="lg:col-span-6"
+          className="lg:col-span-7"
         >
           <Eyebrow>Who we are</Eyebrow>
+
           <h2
             id="who-title"
-            className="mt-2 font-semibold text-slate-900 leading-[1.06] tracking-tight
-                       text-[clamp(24px,5vw,40px)] max-w-[36ch]"
+            className="mt-2 text-slate-900 font-semibold leading-[1.04]
+                       text-[clamp(26px,5.4vw,42px)] max-w-[32ch]"
           >
             {heading}
           </h2>
 
-          <p className="mt-3 text-slate-700 text-[clamp(15px,2.2vw,17px)] max-w-[65ch]">
-            {blurb}
+          <p className="mt-3 text-slate-700 text-[clamp(15px,2.2vw,17px)] max-w-[62ch]">
+            {lead}
           </p>
 
-          <ul className="mt-5 flex flex-wrap gap-2.5">
-            {highlights.map((h) => (
-              <li
-                key={h}
-                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white
-                           px-3.5 py-1.5 text-sm text-slate-800 shadow-sm"
+          {/* stat bar (varies the look vs chips) */}
+          <dl className="mt-6 grid grid-cols-3 gap-3 max-w-xl">
+            {stats.map(({ k, v }) => (
+              <div
+                key={k}
+                className="rounded-2xl border border-slate-200 bg-page px-4 py-3 shadow-sm"
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-slate-900/80" />
-                {h}
-              </li>
+                <dt className="text-slate-900 font-semibold">{k}</dt>
+                <dd className="text-[13px] text-slate-600 mt-0.5">{v}</dd>
+              </div>
             ))}
-          </ul>
+          </dl>
 
-          <div className="mt-6">
+          <div className="mt-7">
             <a
               href={ctaHref}
               className="inline-flex items-center rounded-full border border-slate-300 text-slate-900
@@ -66,17 +68,17 @@ export default function WhoWeAre({
           </div>
         </motion.div>
 
-        {/* Framed image with offset accent */}
+        {/* Image (distinct frame treatment) */}
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-12% 0px" }}
           transition={{ duration: 0.35, delay: 0.05 }}
-          className="lg:col-span-6"
+          className="lg:col-span-5"
         >
           <div className="relative">
-            <div className="absolute -inset-3 -z-10 rounded-3xl bg-[var(--brand-accent)]/10" />
-            <div className="aspect-[16/10] w-full overflow-hidden rounded-2xl shadow-[0_10px_30px_rgba(10,22,50,.10)] ring-1 ring-slate-200">
+            <div className="absolute -inset-3 -z-10 rounded-3xl bg-[var(--brand-accent)]/12" />
+            <div className="aspect-[4/3] overflow-hidden rounded-3xl ring-1 ring-slate-200 shadow-[0_12px_32px_rgba(10,22,50,.10)]">
               <img
                 src={image}
                 alt="London / legal setting"
